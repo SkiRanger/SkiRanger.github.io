@@ -84,7 +84,22 @@
             const question = inputField.value.trim(); // Get user input and trim whitespace
 
             if (question) {
-                responseDiv.textContent = 'This has executed, but not piped through the model';
+                import OpenAI from "openai";
+                const openai = new OpenAI();
+                
+                const completion = await openai.chat.completions.create({
+                    model: "gpt-4o",
+                    messages: [
+                        { role: "system", content: "You are a helpful assistant." },
+                        {
+                            role: "user",
+                            content: "Write a haiku about recursion in programming.",
+                        },
+                    ],
+                });
+
+                //responseDiv.textContent = 'This has executed, but not piped through the model';
+                responseDiv.textContent = completion.choices[0].message;
             } else {
                 alert("please enter a valid question."); // Show an alert if input is empty
             }
