@@ -83,7 +83,18 @@
             const question = inputField.value.trim(); // Get user input and trim whitespace
 
             if (question) {
-                responseDiv.textContent = `u asked: "${question}"`; // Display the question
+                const completion = await openai.chat.completions.create({
+                    model: "gpt-4o",
+                    messages: [
+                        { role: "system", content: "You are a helpful assistant." },
+                        {
+                            role: "user",
+                            content: "Write a haiku about recursion in programming.",
+                        },
+                    ],
+                });
+
+                responseDiv.textContent = completion; // Display the question
             } else {
                 alert("please enter a valid question."); // Show an alert if input is empty
             }
